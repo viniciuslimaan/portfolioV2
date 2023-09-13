@@ -14,8 +14,13 @@ const astronautFloating = keyframes`
 `;
 
 export const Content = styled(Container)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  margin-top: -60px;
   text-align: center;
-  padding-bottom: 50px;
 
   h1 {
     line-height: 130%;
