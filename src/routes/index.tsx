@@ -26,8 +26,18 @@ const Routes = (): JSX.Element => {
             key={i}
             path={item.path}
             element={
-              item.isPrivate && !authenticated ? (
-                <Navigate to="/admin/login" replace />
+              item.isPrivate ? (
+                !loading ? (
+                  !authenticated ? (
+                    <Navigate to="/admin/login" replace />
+                  ) : (
+                    <Suspense fallback={<SuspenseLoading />}>
+                      <PageFadeIn>{item.element}</PageFadeIn>
+                    </Suspense>
+                  )
+                ) : (
+                  <SuspenseLoading />
+                )
               ) : (
                 <Suspense fallback={<SuspenseLoading />}>
                   <PageFadeIn>{item.element}</PageFadeIn>

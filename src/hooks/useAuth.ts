@@ -20,20 +20,22 @@ const useAuth = () => {
     const getAuthentication = async () => {
       const token = getAuthToken();
 
-      if (token) {
-        api.defaults.headers.Authorization = `Bearer ${token}`;
-
-        try {
-          const response = await api.post('/auth/me');
-
-          setUser(response.data.data);
-          setAuthenticated(true);
-        } catch (err) {
-          logout();
-        }
+      if (!token) {
+        return setLoading(false);
       }
 
-      setLoading(false);
+      api.defaults.headers.Authorization = `Bearer ${token}`;
+
+      try {
+        const response = await api.post('/auth/me');
+
+        setUser(response.data.data);
+        setAuthenticated(true);
+      } catch (err) {
+        logout();
+      } finally {
+        setLoading(false);
+      }
     };
 
     getAuthentication();

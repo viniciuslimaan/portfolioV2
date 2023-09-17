@@ -20,7 +20,7 @@ const HeaderAdmin = ({ isDashboard = false }: Props) => {
     <>
       <Account>
         {loading ? (
-          <Skeleton width={300} height={30} />
+          <Skeleton width={300} height={40} />
         ) : (
           <NameAccount>
             Bem-vindo, <span>{user?.name || 'administrador'}</span>!
@@ -30,8 +30,8 @@ const HeaderAdmin = ({ isDashboard = false }: Props) => {
         <ButtonsAccount>
           {loading && (
             <>
-              <Skeleton width={150} height={30} />{' '}
-              <Skeleton width={150} height={30} />{' '}
+              <Skeleton width={150} height={40} />{' '}
+              <Skeleton width={150} height={40} />{' '}
             </>
           )}
 
