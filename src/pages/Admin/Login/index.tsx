@@ -82,25 +82,19 @@ const Login = () => {
             <p>Faça o login para conseguir editar os dados do sistema.</p>
           </FormTop>
 
-          <FormGroup
-            isInvalid={errors.email ? true : false}
-            errorMsg={errors.email?.message || ''}
-          >
+          <FormGroup error={errors.email}>
             <label htmlFor="email">E-mail</label>
             <input
               id="email"
               type="email"
               placeholder="viniciuslima@email.com"
               {...register('email', {
-                required: 'O campo de e-mail é obrigatório!',
+                required: 'O campo e-mail é obrigatório!',
               })}
             />
           </FormGroup>
 
-          <FormGroup
-            isInvalid={errors.password ? true : false}
-            errorMsg={errors.password?.message || ''}
-          >
+          <FormGroup error={errors.password}>
             <label htmlFor="password">Senha</label>
             <input
               id="password"

@@ -2,18 +2,22 @@ import { ReactNode } from 'react';
 
 import { FormGroupBg, FormInvalid } from './styles';
 
+type inputError = {
+  message?: string;
+  type?: string;
+};
+
 interface Props {
-  isInvalid?: boolean;
-  errorMsg?: string;
+  error?: inputError;
   children: ReactNode;
 }
 
-const FormGroup = ({ isInvalid, errorMsg, children }: Props) => {
+const FormGroup = ({ error, children }: Props) => {
   return (
-    <FormGroupBg isInvalid={isInvalid}>
+    <FormGroupBg isInvalid={error ? true : false}>
       {children}
 
-      {isInvalid && <FormInvalid>{errorMsg}</FormInvalid>}
+      {error && <FormInvalid>{error.message || ''}</FormInvalid>}
     </FormGroupBg>
   );
 };

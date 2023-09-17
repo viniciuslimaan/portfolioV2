@@ -16,6 +16,14 @@ import TopicTitle from '../../../components/TopicTitle';
 
 import { Container } from '../../../styles/layout';
 
+interface PasswordRules {
+  minLength: {
+    value: number;
+    message: string;
+  };
+  required?: string;
+}
+
 const User = () => {
   const { userId } = useParams();
 
@@ -54,6 +62,15 @@ const User = () => {
     console.log(data);
   };
 
+  const passwordValidation: PasswordRules = {
+    minLength: {
+      value: 6,
+      message: 'A senha deve conter no mínimo 6 caracteres.',
+    },
+  };
+
+  if (!userId) passwordValidation.required = 'O campo senha é obrigatório!';
+
   useEffect(() => {
     getUser();
   }, [getUser]);
@@ -68,36 +85,31 @@ const User = () => {
         'Carregando...'
       ) : (
         <Form onSubmit={handleSubmit(submit)}>
-          <FormGroup
-            isInvalid={errors.name ? true : false}
-            errorMsg="Nome inválido."
-          >
+          <FormGroup error={errors.name}>
             <label htmlFor="name">Nome</label>
             <input
               id="name"
               type="text"
               placeholder="Vinicius Lima"
-              {...register('name', { required: true })}
+              {...register('name', {
+                required: 'O campo nome é obrigatório!',
+              })}
             />
           </FormGroup>
 
-          <FormGroup
-            isInvalid={errors.email ? true : false}
-            errorMsg="E-mail inválido."
-          >
+          <FormGroup error={errors.email}>
             <label htmlFor="email">E-mail</label>
             <input
               id="email"
               type="email"
               placeholder="viniciuslima@email.com"
-              {...register('email', { required: true })}
+              {...register('email', {
+                required: 'O campo e-mail é obrigatório!',
+              })}
             />
           </FormGroup>
 
-          <FormGroup
-            isInvalid={errors.password ? true : false}
-            errorMsg="A senha deve conter no mínimo 6 caracteres."
-          >
+          <FormGroup error={errors.password}>
             <label htmlFor="password">
               Senha <small>(Insira a senha apenas caso queira mudar)</small>
             </label>
@@ -105,7 +117,7 @@ const User = () => {
               id="password"
               type="password"
               placeholder="******"
-              {...register('password', { required: true, minLength: 6 })}
+              {...register('password', passwordValidation)}
             />
           </FormGroup>
 

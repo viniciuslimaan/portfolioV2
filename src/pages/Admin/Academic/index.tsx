@@ -70,25 +70,26 @@ const Academic = () => {
         'Carregando...'
       ) : (
         <Form onSubmit={handleSubmit(submit)}>
-          <FormGroup
-            isInvalid={errors.name ? true : false}
-            errorMsg="Nome inválido."
-          >
+          <FormGroup error={errors.name}>
             <label htmlFor="name">Nome</label>
             <input
               id="name"
               type="text"
               placeholder="Cardápio online"
-              {...register('name', { required: true })}
+              {...register('name', {
+                required: 'O campo nome é obrigatório!',
+              })}
             />
           </FormGroup>
 
-          <FormGroup
-            isInvalid={errors.semester ? true : false}
-            errorMsg="Semestre inválido."
-          >
+          <FormGroup error={errors.semester}>
             <label htmlFor="semester">Semestre</label>
-            <select id="semester" {...register('semester', { required: true })}>
+            <select
+              id="semester"
+              {...register('semester', {
+                required: 'O campo semestre é obrigatório!',
+              })}
+            >
               <option value="">Selecione...</option>
               <option value="one">1º Semestre</option>
               <option value="two">2º Semestre</option>
@@ -99,28 +100,29 @@ const Academic = () => {
             </select>
           </FormGroup>
 
-          <FormGroup
-            isInvalid={errors.image ? true : false}
-            errorMsg="Imagem inválida."
-          >
+          <FormGroup error={errors.image}>
             <label htmlFor="image">Imagem</label>
             <input
               id="image"
               type="file"
-              {...register('image', { required: true })}
+              {...register('image', {
+                required: 'O campo imagem é obrigatório!',
+              })}
             />
           </FormGroup>
 
-          <FormGroup
-            isInvalid={errors.description ? true : false}
-            errorMsg="A descrição deve ter no máximo 200 caracteres."
-          >
+          <FormGroup error={errors.description}>
             <label htmlFor="description">Descrição</label>
             <textarea
               id="description"
               placeholder="O projeto é um cardápio online blá blá blá"
               rows={5}
-              {...register('description', { maxLength: 200 })}
+              {...register('description', {
+                maxLength: {
+                  value: 200,
+                  message: 'A descrição deve conter no mínimo 200 caracteres.',
+                },
+              })}
             />
           </FormGroup>
 

@@ -72,37 +72,33 @@ const Portfolio = () => {
         'Carregando...'
       ) : (
         <Form onSubmit={handleSubmit(submit)}>
-          <FormGroup
-            isInvalid={errors.name ? true : false}
-            errorMsg="Nome inválido."
-          >
+          <FormGroup error={errors.name}>
             <label htmlFor="name">Nome</label>
             <input
               id="name"
               type="text"
               placeholder="SOSCantinas"
-              {...register('name', { required: true })}
+              {...register('name', { required: 'O campo nome é obrigatório!' })}
             />
           </FormGroup>
 
-          <FormGroup
-            isInvalid={errors.image ? true : false}
-            errorMsg="Imagem inválida."
-          >
+          <FormGroup error={errors.image}>
             <label htmlFor="image">Imagem</label>
             <input
               id="image"
               type="file"
-              {...register('image', { required: true })}
+              {...register('image', {
+                required: 'O campo imagem é obrigatório!',
+              })}
             />
           </FormGroup>
 
-          <FormGroup
-            isInvalid={errors.type ? true : false}
-            errorMsg="Tipo inválido."
-          >
+          <FormGroup error={errors.type}>
             <label htmlFor="password">Tipo</label>
-            <select id="password" {...register('type', { required: true })}>
+            <select
+              id="password"
+              {...register('type', { required: 'O campo tipo é obrigatório!' })}
+            >
               <option value="">Selecione...</option>
               <option value="design">Design</option>
               <option value="prototype">Protótipo</option>
