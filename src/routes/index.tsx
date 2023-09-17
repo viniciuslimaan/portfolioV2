@@ -1,14 +1,23 @@
-import { Suspense, lazy } from 'react';
-import { BrowserRouter, Routes as AllRoutes, Route } from 'react-router-dom';
+import { Suspense, lazy, useContext } from 'react';
+import {
+  BrowserRouter,
+  Routes as AllRoutes,
+  Route,
+  Navigate,
+} from 'react-router-dom';
 
 import PageFadeIn from '../components/FadeInAnimations/Page';
 import SuspenseLoading from '../components/SuspenseLoading';
 
+import { AuthContext } from '../contexts/AuthContext';
 import { routesList } from './routes';
 
 const NotFound = lazy(() => import('../pages/NotFound'));
+const Login = lazy(() => import('../pages/Admin/Login'));
 
-export default function Routes(): JSX.Element {
+const Routes = (): JSX.Element => {
+  const { authenticated, loading } = useContext(AuthContext);
+
   return (
     <BrowserRouter basename="/">
       <AllRoutes>
@@ -17,12 +26,35 @@ export default function Routes(): JSX.Element {
             key={i}
             path={item.path}
             element={
-              <Suspense fallback={<SuspenseLoading />}>
-                <PageFadeIn>{item.element}</PageFadeIn>
-              </Suspense>
+              item.isPrivate && !authenticated ? (
+                <Navigate to="/admin/login" replace />
+              ) : (
+                <Suspense fallback={<SuspenseLoading />}>
+                  <PageFadeIn>{item.element}</PageFadeIn>
+                </Suspense>
+              )
             }
           />
         ))}
+
+        <Route
+          path="/admin/login"
+          element={
+            !loading ? (
+              authenticated ? (
+                <Navigate to="/admin" replace />
+              ) : (
+                <Suspense fallback={<SuspenseLoading />}>
+                  <PageFadeIn>
+                    <Login />
+                  </PageFadeIn>
+                </Suspense>
+              )
+            ) : (
+              <SuspenseLoading />
+            )
+          }
+        />
 
         <Route
           path="*"
@@ -37,4 +69,6 @@ export default function Routes(): JSX.Element {
       </AllRoutes>
     </BrowserRouter>
   );
-}
+};
+
+export default Routes;

@@ -1,12 +1,19 @@
+import { useState, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
-import { toastSuccess } from '../../../utils/toast';
+import { AxiosError } from 'axios';
+
+import api from '../../../services/api';
+
+import { toastError, toastSuccess } from '../../../utils/toast';
 
 import BgStars from '../../../components/BgStars';
 import Button from '../../../components/Button';
 import Form from '../../../components/Form';
 import FormGroup from '../../../components/Form/FormGroup';
+
+import { AuthContext } from '../../../contexts/AuthContext';
 
 import { Content, FormTop, Logo } from './styles';
 
@@ -16,16 +23,52 @@ type FormData = {
 };
 
 const Login = () => {
+  const { login } = useContext(AuthContext);
+
+  const [saving, setSaving] = useState(false);
+
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<FormData>();
 
-  const submit = (data: FormData) => {
-    toastSuccess('Login efetuado com sucesso!');
+  const submit = async (data: FormData) => {
+    setSaving(true);
 
-    console.log(data);
+    const { email, password } = data;
+
+    try {
+      const response = await api.post('/auth/login', {
+        email,
+        password,
+      });
+
+      const token = response.data?.access_token;
+
+      if (!token) {
+        return toastError('Ocorreu um erro ao fazer o login!');
+      }
+
+      login(token);
+
+      toastSuccess('Usuário logado com sucesso!');
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        const error = err.response?.data?.data?.msg;
+
+        toastError(
+          error ||
+            'Não foi possível fazer o login. Por favor, comunique um administrador.',
+        );
+
+        setError('email', {});
+        setError('password', {});
+      }
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -41,31 +84,39 @@ const Login = () => {
 
           <FormGroup
             isInvalid={errors.email ? true : false}
-            errorMsg="E-mail inválido."
+            errorMsg={errors.email?.message || ''}
           >
             <label htmlFor="email">E-mail</label>
             <input
               id="email"
               type="email"
               placeholder="viniciuslima@email.com"
-              {...register('email', { required: true })}
+              {...register('email', {
+                required: 'O campo de e-mail é obrigatório!',
+              })}
             />
           </FormGroup>
 
           <FormGroup
-            isInvalid={errors.email ? true : false}
-            errorMsg="Senha inválida."
+            isInvalid={errors.password ? true : false}
+            errorMsg={errors.password?.message || ''}
           >
             <label htmlFor="password">Senha</label>
             <input
-              id="passoword"
+              id="password"
               type="password"
               placeholder="******"
-              {...register('password', { required: true, minLength: 6 })}
+              {...register('password', {
+                required: 'O campo de senha é obrigatório!',
+                minLength: {
+                  value: 6,
+                  message: 'A senha deve conter no mínimo 6 caracteres.',
+                },
+              })}
             />
           </FormGroup>
 
-          <Button type="submit" text="Entrar" />
+          <Button isLoading={saving} type="submit" size="full" text="Entrar" />
         </Form>
 
         <Link to="/">

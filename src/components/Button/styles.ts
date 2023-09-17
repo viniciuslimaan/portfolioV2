@@ -17,7 +17,7 @@ export const ButtonBg = styled.button<ButtonBgProps>`
   border-radius: 5px;
   font-size: 1rem;
   font-weight: 600;
-  width: ${(p) => (p.color === 'default' ? 'fit-content' : '100%;')};
+  width: ${(p) => (p.size === 'default' ? 'fit-content' : '100%;')};
   max-width: 100%;
   color: ${(p) => p.theme.colors.font};
   transition: filter 0.5s ease;

@@ -12,6 +12,8 @@
     "react-animate-on-scroll": "^2.1.7",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.45.2",
+    "react-jwt": "^1.2.0",
+    "react-loading-skeleton": "^3.3.1",
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.14.1",
     "react-scripts": "5.0.1",
