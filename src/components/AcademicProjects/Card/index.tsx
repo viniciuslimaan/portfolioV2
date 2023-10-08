@@ -3,7 +3,9 @@ import Modal from 'react-modal';
 
 import { Icon } from '@iconify/react';
 
-import { Academic, Semester } from '../../../types/academic';
+import { Academic } from '../../../types/academic';
+
+import { getAcademicSemester } from '../../../utils/functions/getAcademicSemester';
 
 import {
   CardBg,
@@ -20,16 +22,6 @@ const Card = ({ name, semester, image, description }: Academic) => {
 
   const handleModal = () => setModalOpened(!modalOpened);
 
-  const getSemester = (semester: Semester): string => {
-    if (semester === 'one') return '1º Semestre';
-    if (semester === 'two') return '2º Semestre';
-    if (semester === 'three') return '3º Semestre';
-    if (semester === 'four') return '4º Semestre';
-    if (semester === 'five') return '5º Semestre';
-    if (semester === 'six') return '6º Semestre';
-    return '-';
-  };
-
   return (
     <>
       <CardBg onClick={() => handleModal()}>
@@ -38,7 +30,7 @@ const Card = ({ name, semester, image, description }: Academic) => {
         </Image>
 
         <Description>
-          <h3>{getSemester(semester)}</h3>
+          <h3>{getAcademicSemester(semester)}</h3>
           <p>{name}</p>
         </Description>
       </CardBg>
@@ -80,7 +72,7 @@ const Card = ({ name, semester, image, description }: Academic) => {
 
         <ModalTitle>
           <h3>{name}</h3>
-          <p>{getSemester(semester)}</p>
+          <p>{getAcademicSemester(semester)}</p>
         </ModalTitle>
 
         <ModalText>

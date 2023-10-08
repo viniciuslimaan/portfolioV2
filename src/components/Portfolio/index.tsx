@@ -146,7 +146,7 @@ const Portfolio = ({ data }: Props) => {
                 name={item.name}
                 image={item.image}
                 type={item.type}
-                link={item.link}
+                deploy={item.deploy}
                 github={item.github}
                 figma={item.figma}
                 onClick={() => handleLightbox(i)}

@@ -1,20 +1,22 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { User as UserType } from '../../../types/user';
 
 import api from '../../../services/api';
 
+import { handleFormErrors } from '../../../utils/functions/handleFormErrors';
 import { toastError, toastSuccess } from '../../../utils/toast';
 
 import Form from '../../../components/Form';
 import BtnSave from '../../../components/Form/BtnSave';
 import FormGroup from '../../../components/Form/FormGroup';
+import FormLoading from '../../../components/Form/FormLoading';
 import HeaderAdm from '../../../components/Header/Admin';
 import TopicTitle from '../../../components/TopicTitle';
 
-import { Container } from '../../../styles/layout';
+import { NewContainer } from '../Dashboard/styles';
 
 interface PasswordRules {
   minLength: {
@@ -26,12 +28,17 @@ interface PasswordRules {
 
 const User = () => {
   const { userId } = useParams();
+  const navigate = useNavigate();
 
   const [user, setUser] = useState<UserType>({} as UserType);
+
   const [loading, setLoading] = useState<boolean>(true);
+  const [saving, setSaving] = useState<boolean>(false);
 
   const {
     register,
+    reset,
+    setError,
     handleSubmit,
     formState: { errors },
   } = useForm<UserType>();
@@ -43,24 +50,51 @@ const User = () => {
       if (userId) {
         const response = await api.get(`/user/${userId}`);
 
-        setUser(response.data);
+        const userData = response.data.data;
+
+        setUser(userData);
       }
-    } catch (error) {
+    } catch (err) {
       toastError('Não foi possível obter os dados do usuário.');
+      navigate('/admin');
     } finally {
       setLoading(false);
     }
   }, [userId]);
 
-  const submit = (data: UserType) => {
-    if (userId) {
-      toastSuccess('Usuário editado com sucesso!');
-    } else {
-      toastSuccess('Usuário cadastrado com sucesso!');
-    }
+  const submit = useCallback(
+    async (data: UserType) => {
+      setSaving(true);
 
-    console.log(data);
-  };
+      const { name, email, password } = data;
+
+      try {
+        if (userId) {
+          await api.put(`/user/${userId}`, {
+            name,
+            email,
+            password,
+          });
+
+          toastSuccess('Usuário atualizado com sucesso!');
+        } else {
+          await api.post('/user', {
+            name,
+            email,
+            password,
+          });
+
+          toastSuccess('Usuário cadastrado com sucesso!');
+        }
+        navigate('/admin');
+      } catch (err) {
+        handleFormErrors(err, setError);
+      } finally {
+        setSaving(false);
+      }
+    },
+    [userId],
+  );
 
   const passwordValidation: PasswordRules = {
     minLength: {
@@ -75,56 +109,65 @@ const User = () => {
     getUser();
   }, [getUser]);
 
+  useEffect(() => {
+    reset({ ...user });
+  }, [user, reset]);
+
   return (
-    <Container>
+    <NewContainer>
       <HeaderAdm />
 
-      <TopicTitle>{userId ? 'Editar usuário' : 'Novo usuário'}</TopicTitle>
+      <TopicTitle>{userId ? 'Editando usuário' : 'Novo usuário'}</TopicTitle>
 
-      {loading ? (
-        'Carregando...'
-      ) : (
-        <Form onSubmit={handleSubmit(submit)}>
-          <FormGroup error={errors.name}>
-            <label htmlFor="name">Nome</label>
-            <input
-              id="name"
-              type="text"
-              placeholder="Vinicius Lima"
-              {...register('name', {
-                required: 'O campo nome é obrigatório!',
-              })}
-            />
-          </FormGroup>
+      <Form onSubmit={handleSubmit(submit)}>
+        {loading ? (
+          <FormLoading length={3} />
+        ) : (
+          <>
+            <FormGroup error={errors.name}>
+              <label htmlFor="name">Nome</label>
+              <input
+                id="name"
+                type="text"
+                placeholder="Vinicius Lima"
+                {...register('name', {
+                  required: 'O campo nome é obrigatório!',
+                })}
+              />
+            </FormGroup>
 
-          <FormGroup error={errors.email}>
-            <label htmlFor="email">E-mail</label>
-            <input
-              id="email"
-              type="email"
-              placeholder="viniciuslima@email.com"
-              {...register('email', {
-                required: 'O campo e-mail é obrigatório!',
-              })}
-            />
-          </FormGroup>
+            <FormGroup error={errors.email}>
+              <label htmlFor="email">E-mail</label>
+              <input
+                id="email"
+                type="email"
+                placeholder="viniciuslima@email.com"
+                {...register('email', {
+                  required: 'O campo e-mail é obrigatório!',
+                })}
+              />
+            </FormGroup>
 
-          <FormGroup error={errors.password}>
-            <label htmlFor="password">
-              Senha <small>(Insira a senha apenas caso queira mudar)</small>
-            </label>
-            <input
-              id="password"
-              type="password"
-              placeholder="******"
-              {...register('password', passwordValidation)}
-            />
-          </FormGroup>
+            <FormGroup error={errors.password}>
+              <label htmlFor="password">
+                Senha{' '}
+                {userId && (
+                  <small>(Insira a senha apenas caso queira mudar)</small>
+                )}
+              </label>
+              <input
+                id="password"
+                type="password"
+                placeholder="******"
+                {...register('password', passwordValidation)}
+              />
+            </FormGroup>
 
-          <BtnSave />
-        </Form>
-      )}
-    </Container>
+            <BtnSave isSaving={saving} />
+          </>
+        )}
+      </Form>
+    </NewContainer>
   );
 };
 

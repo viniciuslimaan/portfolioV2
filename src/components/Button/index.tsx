@@ -22,7 +22,13 @@ const Button = ({
   execute,
 }: Props) => {
   return (
-    <ButtonBg type={type} color={color} size={size} onClick={execute}>
+    <ButtonBg
+      type={type}
+      color={color}
+      size={size}
+      onClick={isLoading ? undefined : execute}
+      disabled={isLoading}
+    >
       {isLoading ? (
         <Icon className="icon" icon="svg-spinners:180-ring-with-bg" />
       ) : (

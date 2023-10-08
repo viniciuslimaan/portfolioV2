@@ -2,13 +2,15 @@ import { Icon } from '@iconify/react';
 
 import { Portfolio } from '../../../types/portfolio';
 
+import { getPortfolioType } from '../../../utils/functions/getPortfolioType';
+
 import { CardBg, Image, Description, Links } from './styles';
 
 interface Props extends Portfolio {
   onClick?: () => void;
 }
 
-const Card = ({ name, image, type, link, github, figma, onClick }: Props) => {
+const Card = ({ name, image, type, deploy, github, figma, onClick }: Props) => {
   return (
     <CardBg>
       <Image src={image} type={type} className="img" onClick={onClick}>
@@ -17,15 +19,13 @@ const Card = ({ name, image, type, link, github, figma, onClick }: Props) => {
 
       {type !== 'design' && (
         <Description>
-          <p className="type">
-            {type === 'web' ? 'Aplicativo Web' : 'Aplicativo Mobile'}
-          </p>
+          <p className="type">{getPortfolioType(type)}</p>
 
           <p className="name">{name}</p>
 
           <Links>
-            {link && (
-              <a href={link} target="__blank">
+            {deploy && (
+              <a href={deploy} target="__blank">
                 <Icon icon="ph:link-duotone" />
               </a>
             )}

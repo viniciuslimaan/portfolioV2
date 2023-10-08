@@ -2,10 +2,15 @@ import { Icon } from '@iconify/react';
 
 import Button from '../../Button';
 
-const BtnSave = () => {
+interface Props {
+  isSaving?: boolean;
+}
+
+const BtnSave = ({ isSaving }: Props) => {
   return (
     <Button
       icon={<Icon className="icon" icon="ph:floppy-disk-duotone" />}
+      isLoading={isSaving}
       text="Salvar"
       color="green"
       type="submit"

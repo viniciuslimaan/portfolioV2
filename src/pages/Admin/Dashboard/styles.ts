@@ -1,5 +1,11 @@
 import styled from 'styled-components';
 
+import { Container } from '../../../styles/layout';
+
+export const NewContainer = styled(Container)`
+  padding-bottom: 5rem;
+`;
+
 export const Cards = styled.div`
   display: flex;
   align-items: center;
@@ -61,37 +67,6 @@ export const TableTitle = styled.div`
   gap: 5px;
 `;
 
-export const BtnNew = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-
-  cursor: pointer;
-  padding: 13px 35px;
-  border: none;
-  border-radius: 5px;
-  font-size: 1rem;
-  font-weight: 600;
-  width: 260px;
-  max-width: 100%;
-  background: ${(p) => p.theme.colors.success};
-  color: ${(p) => p.theme.colors.font};
-  transition: filter 0.5s ease;
-
-  @media (max-width: 767px) {
-    width: 100%;
-  }
-
-  &:hover {
-    filter: brightness(0.9);
-  }
-
-  .icon {
-    font-size: 1.8rem;
-  }
-`;
-
 export const Table = styled.table`
   width: 100%;
   overflow-x: auto;
@@ -149,4 +124,67 @@ export const BtnFuctions = styled.button<BtnFunctions>`
   .icon {
     font-size: 1.2rem;
   }
+`;
+
+export const Empty = styled.td`
+  text-align: center;
+  padding: 3rem 0 !important;
+
+  .icon,
+  p {
+    color: ${(p) => p.theme.colors.bg};
+  }
+
+  .icon {
+    font-size: 5rem;
+  }
+
+  p {
+    margin-top: 10px;
+    font-size: 1rem;
+  }
+`;
+
+export const ModalHeader = styled.div`
+  padding: 1.5rem;
+`;
+
+export const ModalClose = styled.div`
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 40px;
+  height: 40px;
+  font-size: 1.6rem;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: 0.5s ease;
+  color: ${(p) => p.theme.colors.font};
+  border: 1px solid ${(p) => p.theme.colors.bgLight};
+
+  &:hover {
+    color: ${(p) => p.theme.colors.primary};
+    background: ${(p) => p.theme.colors.bg};
+  }
+`;
+
+export const ModalContent = styled.div`
+  padding: 0rem 1.5rem 1rem 1.5rem;
+`;
+
+export const ModalFooter = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 5px;
+
+  @media (max-width: 350px) {
+    flex-wrap: wrap;
+  }
+
+  padding: 1.5rem;
 `;

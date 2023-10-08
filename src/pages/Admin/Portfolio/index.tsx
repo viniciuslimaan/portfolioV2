@@ -1,34 +1,45 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useForm } from 'react-hook-form';
-import { useParams } from 'react-router-dom';
+import { Controller, FormProvider, useForm } from 'react-hook-form';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { Portfolio as PortfolioType } from '../../../types/portfolio';
 
 import api from '../../../services/api';
 
+import { handleFormErrors } from '../../../utils/functions/handleFormErrors';
 import { toastError, toastSuccess } from '../../../utils/toast';
 
 import Form from '../../../components/Form';
 import BtnSave from '../../../components/Form/BtnSave';
 import FormGroup from '../../../components/Form/FormGroup';
+import FormLoading from '../../../components/Form/FormLoading';
+import InputImage from '../../../components/Form/InputImage';
 import HeaderAdm from '../../../components/Header/Admin';
 import TopicTitle from '../../../components/TopicTitle';
 
-import { Container } from '../../../styles/layout';
+import { NewContainer } from '../Dashboard/styles';
 
 const Portfolio = () => {
   const { portfolioId } = useParams();
+  const navigate = useNavigate();
 
   const [portfolio, setPortfolio] = useState<PortfolioType>(
     {} as PortfolioType,
   );
-  const [loading, setLoading] = useState<boolean>(true);
 
+  const [loading, setLoading] = useState<boolean>(true);
+  const [saving, setSaving] = useState<boolean>(false);
+
+  const methods = useForm<PortfolioType>();
   const {
+    control,
     register,
+    setError,
+    setValue,
     handleSubmit,
+    reset,
     formState: { errors },
-  } = useForm<PortfolioType>();
+  } = methods;
 
   const getPortfolio = useCallback(async () => {
     setLoading(true);
@@ -37,110 +48,156 @@ const Portfolio = () => {
       if (portfolioId) {
         const response = await api.get(`/portfolio/${portfolioId}`);
 
-        setPortfolio(response.data);
+        const portfolioData = response.data.data;
+
+        setPortfolio(portfolioData);
       }
-    } catch (error) {
+    } catch (err) {
       toastError('Não foi possível obter os dados do portfólio.');
+      navigate('/admin');
     } finally {
       setLoading(false);
     }
   }, [portfolioId]);
 
-  const submit = (data: PortfolioType) => {
-    if (portfolioId) {
-      toastSuccess('Portfólio editado com sucesso!');
-    } else {
-      toastSuccess('Portfólio cadastrado com sucesso!');
-    }
+  const submit = useCallback(
+    async (data: PortfolioType) => {
+      setSaving(true);
 
-    console.log(data);
-  };
+      const saveData = new FormData();
+      saveData.append('type', data.type);
+      saveData.append('deploy', data.deploy ?? '');
+      saveData.append('github', data.github ?? '');
+      saveData.append('figma', data.figma ?? '');
+      saveData.append('name', data.name);
+
+      if (data.image) {
+        saveData.append('image', data.image);
+      }
+
+      try {
+        if (portfolioId) {
+          await api.post(`/portfolio/${portfolioId}?_method=PUT`, saveData);
+
+          toastSuccess('Portfólio atualizado com sucesso!');
+        } else {
+          await api.post('/portfolio', saveData);
+
+          toastSuccess('Portfólio adicionado com sucesso!');
+        }
+
+        navigate('/admin');
+      } catch (err) {
+        handleFormErrors(err, setError);
+      } finally {
+        setSaving(false);
+      }
+    },
+    [portfolioId],
+  );
 
   useEffect(() => {
     getPortfolio();
   }, [getPortfolio]);
 
+  useEffect(() => {
+    reset({ ...portfolio });
+    setValue('image', '');
+  }, [portfolio, reset, setValue]);
+
   return (
-    <Container>
+    <NewContainer>
       <HeaderAdm />
 
       <TopicTitle>
         {portfolioId ? 'Editar portfólio' : 'Novo portfólio'}
       </TopicTitle>
 
-      {loading ? (
-        'Carregando...'
-      ) : (
+      <FormProvider {...methods}>
         <Form onSubmit={handleSubmit(submit)}>
-          <FormGroup error={errors.name}>
-            <label htmlFor="name">Nome</label>
-            <input
-              id="name"
-              type="text"
-              placeholder="SOSCantinas"
-              {...register('name', { required: 'O campo nome é obrigatório!' })}
-            />
-          </FormGroup>
+          {loading ? (
+            <FormLoading length={6} />
+          ) : (
+            <>
+              <FormGroup error={errors.name}>
+                <label htmlFor="name">Nome</label>
+                <input
+                  id="name"
+                  type="text"
+                  placeholder="SOSCantinas"
+                  {...register('name', {
+                    required: 'O campo nome é obrigatório!',
+                  })}
+                />
+              </FormGroup>
 
-          <FormGroup error={errors.image}>
-            <label htmlFor="image">Imagem</label>
-            <input
-              id="image"
-              type="file"
-              {...register('image', {
-                required: 'O campo imagem é obrigatório!',
-              })}
-            />
-          </FormGroup>
+              <FormGroup error={errors.type}>
+                <label htmlFor="type">Tipo</label>
+                <select
+                  id="type"
+                  {...register('type', {
+                    required: 'O campo tipo é obrigatório!',
+                  })}
+                >
+                  <option value="">Selecione...</option>
+                  <option value="design">Design</option>
+                  <option value="prototype">Protótipo</option>
+                  <option value="web">Aplicativo Web</option>
+                  <option value="mobile">Aplicativo Mobile</option>
+                </select>
+              </FormGroup>
 
-          <FormGroup error={errors.type}>
-            <label htmlFor="password">Tipo</label>
-            <select
-              id="password"
-              {...register('type', { required: 'O campo tipo é obrigatório!' })}
-            >
-              <option value="">Selecione...</option>
-              <option value="design">Design</option>
-              <option value="prototype">Protótipo</option>
-              <option value="web">Web</option>
-              <option value="mobile">Mobile</option>
-            </select>
-          </FormGroup>
+              <FormGroup error={errors.image}>
+                <label htmlFor="image">Imagem</label>
+                <Controller
+                  name="image"
+                  control={control}
+                  rules={{
+                    required: {
+                      value: portfolioId ? false : true,
+                      message: 'O campo imagem é obrigatório!',
+                    },
+                  }}
+                  render={() => <InputImage />}
+                />
+              </FormGroup>
 
-          <FormGroup>
-            <label htmlFor="link">Link</label>
-            <input
-              id="link"
-              type="text"
-              placeholder="www.viniciuslimaan.com.br/soscantinas"
-              {...register('link')}
-            />
-          </FormGroup>
+              <FormGroup>
+                <label htmlFor="deploy">Link</label>
+                <input
+                  id="deploy"
+                  type="text"
+                  placeholder="www.viniciuslimaan.com.br/soscantinas"
+                  {...register('deploy')}
+                />
+              </FormGroup>
 
-          <FormGroup>
-            <label htmlFor="github">Github</label>
-            <input
-              id="github"
-              type="text"
-              placeholder="www.github.com/viniciuslimaan/soscantinas"
-              {...register('github')}
-            />
-          </FormGroup>
+              <FormGroup>
+                <label htmlFor="github">Github</label>
+                <input
+                  id="github"
+                  type="text"
+                  placeholder="www.github.com/viniciuslimaan/soscantinas"
+                  {...register('github')}
+                />
+              </FormGroup>
 
-          <FormGroup>
-            <label htmlFor="figma">Figma</label>
-            <input
-              id="figma"
-              type="text"
-              placeholder="www.figma.com/soscantinas"
-              {...register('figma')}
-            />
-          </FormGroup>
+              <FormGroup>
+                <label htmlFor="figma">Figma</label>
+                <input
+                  id="figma"
+                  type="text"
+                  placeholder="www.figma.com/soscantinas"
+                  {...register('figma')}
+                />
+              </FormGroup>
 
-          <BtnSave />
+              <BtnSave isSaving={saving} />
+            </>
+          )}
         </Form>
-      )}
-    </Container>
+      </FormProvider>
+    </NewContainer>
   );
 };
 
