@@ -175,13 +175,6 @@ const Academic = () => {
                 <Controller
                   name="description"
                   control={control}
-                  rules={{
-                    maxLength: {
-                      value: 200,
-                      message:
-                        'A descrição deve conter no máximo 200 caracteres.',
-                    },
-                  }}
                   render={({ field }) => (
                     <CustomQuill
                       {...field}

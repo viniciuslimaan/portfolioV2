@@ -76,7 +76,13 @@ const Card = ({ name, semester, image, description }: Academic) => {
         </ModalTitle>
 
         <ModalText>
-          {description || 'Em breve adicionaremos uma descrição ao projeto.'}
+          <div
+            dangerouslySetInnerHTML={{
+              __html:
+                description ||
+                'Em breve adicionaremos uma descrição ao projeto.',
+            }}
+          />
         </ModalText>
       </Modal>
     </>
