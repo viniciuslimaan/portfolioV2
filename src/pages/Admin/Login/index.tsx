@@ -51,7 +51,7 @@ const Login = () => {
         return toastError('Ocorreu um erro ao fazer o login!');
       }
 
-      login(token);
+      await login(token);
 
       toastSuccess('Usuário logado com sucesso!');
     } catch (err) {
