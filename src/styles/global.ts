@@ -99,6 +99,26 @@ const GlobalStyles = createGlobalStyle`
     opacity: 0;
   }
 
+  /* Works on Firefox */
+  .ReactModal__Content {
+    scrollbar-width: 5px;
+    scrollbar-color: #64FBD3 transparent;
+  }
+
+  /* Works on Chrome, Edge, and Safari */
+  .ReactModal__Content::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  .ReactModal__Content::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .ReactModal__Content::-webkit-scrollbar-thumb {
+    background-color: #64FBD3;
+    border-radius: 10px;
+  }
+
   /* Animate.css */
   .animate__fadeInUp {
     position: relative;
