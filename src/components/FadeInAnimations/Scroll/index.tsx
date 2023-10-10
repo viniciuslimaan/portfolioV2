@@ -2,7 +2,7 @@ import ScrollAnimation from 'react-animate-on-scroll';
 
 interface Props {
   animation?: string;
-  children: JSX.Element | JSX.Element[];
+  children: React.ReactNode | React.ReactNode[];
 }
 
 const ScrollFadeIn = ({ animation, children }: Props) => {
