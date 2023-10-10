@@ -41,7 +41,8 @@ export const ImgPreview = styled.div`
   margin-top: 25px;
 
   img {
-    max-width: 100%;
+    width: 100%;
+    max-height: 550px;
   }
 `;
 

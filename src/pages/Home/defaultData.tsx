@@ -3,13 +3,19 @@ import { Icon } from '@iconify/react';
 import CurriculumPdf from '../../assets/curriculum.pdf';
 
 import { About as AboutType } from '../../types/about';
-import { Academic as AcademicType } from '../../types/academic';
 import { Contact as ContactType } from '../../types/contact';
 import { Footer as FooterType } from '../../types/footer';
 import { Header as HeaderType } from '../../types/header';
-import { Portfolio as PortfolioType } from '../../types/portfolio';
 import { Service as ServiceType } from '../../types/service';
 import { Skill as SkillType } from '../../types/skill';
+
+const socialLinks = {
+  whatsapp: 'https://wa.me/5514991212457',
+  facebook: 'https://www.facebook.com/viniciuslimaan',
+  instagram: 'https://www.instagram.com/viniciuslimaan/',
+  linkedin: 'https://www.linkedin.com/in/viniciuslimaan',
+  github: 'https://github.com/viniciuslimaan',
+};
 
 export const headerData: HeaderType = {
   title: 'Eu transformo suas ideias em realidade',
@@ -57,11 +63,7 @@ export const aboutData: AboutType = {
     </p>
   ),
   curriculum: CurriculumPdf,
-  whatsapp: 'https://wa.me/5514991212457',
-  facebook: 'https://www.facebook.com/viniciuslimaan',
-  instagram: 'https://www.instagram.com/viniciuslimaan/',
-  linkedin: 'https://www.linkedin.com/in/viniciuslimaan',
-  github: 'https://github.com/viniciuslimaan',
+  ...socialLinks,
 };
 
 export const skillsData: SkillType[] = [
@@ -131,103 +133,6 @@ export const skillsData: SkillType[] = [
   },
 ];
 
-export const academicData: AcademicType[] = [
-  {
-    name: 'MirrorFashion',
-    semester: 'one',
-    image:
-      'https://www.viniciuslimaan.com.br/api/images/1682956311152_15787.png',
-    description: '',
-  },
-  {
-    name: 'Setembro Amarelo',
-    semester: 'two',
-    image:
-      'https://www.viniciuslimaan.com.br/api/images/1682956311152_15787.png',
-    description: '',
-  },
-  {
-    name: 'Cardápio Online',
-    semester: 'three',
-    image:
-      'https://www.viniciuslimaan.com.br/api/images/1682956311152_15787.png',
-    description: '',
-  },
-  {
-    name: 'Álbum da Copa',
-    semester: 'four',
-    image:
-      'https://www.viniciuslimaan.com.br/api/images/1682956311152_15787.png',
-    description: '',
-  },
-  {
-    name: 'SOSCantinas',
-    semester: 'five',
-    image:
-      'https://www.viniciuslimaan.com.br/api/images/1682956311152_15787.png',
-    description: '',
-  },
-  {
-    name: 'SOSCantinas',
-    semester: 'six',
-    image:
-      'https://www.viniciuslimaan.com.br/api/images/1682956311152_15787.png',
-    description: '',
-  },
-];
-
-export const portfolioData: PortfolioType[] = [
-  {
-    id: 1,
-    name: 'Título do aplicativo',
-    image:
-      'https://www.viniciuslimaan.com.br/api/images/1682956417478_15787.png',
-    type: 'web',
-    link: '/',
-    github: 'www.github.com',
-    figma: 'www.figma.com',
-  },
-  {
-    id: 2,
-    name: 'Título do aplicativo',
-    image:
-      'https://www.viniciuslimaan.com.br/api/images/1682955956996_15787.png',
-    type: 'web',
-    github: 'www.github.com',
-  },
-  {
-    id: 3,
-    name: 'Título do app',
-    image:
-      'https://www.viniciuslimaan.com.br/api/images/1682956009422_15787.png',
-    type: 'mobile',
-    link: '/',
-    github: 'www.github.com',
-    figma: 'www.figma.com',
-  },
-  {
-    id: 4,
-    name: 'Título do design',
-    image:
-      'https://www.viniciuslimaan.com.br/api/images/1682961927410_15787.png',
-    type: 'design',
-  },
-  {
-    id: 5,
-    name: 'Título do design',
-    image:
-      'https://www.viniciuslimaan.com.br/api/images/1682961936963_15787.png',
-    type: 'design',
-  },
-  {
-    id: 6,
-    name: 'Título do design',
-    image:
-      'https://www.viniciuslimaan.com.br/api/images/1682956311152_15787.png',
-    type: 'design',
-  },
-];
-
 export const contactData: ContactType = {
   email: 'viniciuslimaandre@hotmail.com',
   phone: '(14) 99121-2457',
@@ -236,9 +141,5 @@ export const contactData: ContactType = {
 };
 
 export const footerData: FooterType = {
-  whatsapp: 'https://wa.me/5514991212457',
-  facebook: 'https://www.facebook.com/viniciuslimaan',
-  instagram: 'https://www.instagram.com/viniciuslimaan/',
-  linkedin: 'https://www.linkedin.com/in/viniciuslimaan',
-  github: 'https://github.com/viniciuslimaan',
+  ...socialLinks,
 };

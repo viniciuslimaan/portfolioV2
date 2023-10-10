@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 import { Lightbox } from 'yet-another-react-lightbox';
 import Captions from 'yet-another-react-lightbox/plugins/captions';
@@ -16,14 +16,18 @@ import 'yet-another-react-lightbox/styles.css';
 
 import { Portfolio as PortfolioType } from '../../types/portfolio';
 
+import api from '../../services/api';
+
+import EmptyData from '../EmptyData';
 import ScrollFadeIn from '../FadeInAnimations/Scroll';
 import SectionTitle from '../SectionTitle';
 import Card from './Card';
+import Loading from './Loading';
 
 import { Container } from '../../styles/layout';
 import { Button, Buttons, Cards } from './styles';
 
-type Filter = 'all' | 'design' | 'web' | 'mobile';
+type Filter = 'all' | 'design' | 'prototype' | 'web' | 'mobile';
 
 interface ImageProps {
   src: string;
@@ -31,17 +35,61 @@ interface ImageProps {
   height: number;
 }
 
-interface Props {
-  data: PortfolioType[];
+interface AvaliableButtonsProps {
+  name: string;
+  filter: Filter;
 }
 
-const Portfolio = ({ data }: Props) => {
+const AvaliableButtons: AvaliableButtonsProps[] = [
+  {
+    name: 'Tudo',
+    filter: 'all',
+  },
+  {
+    name: 'Design',
+    filter: 'design',
+  },
+  {
+    name: 'Protótipo',
+    filter: 'prototype',
+  },
+  {
+    name: 'Aplicativo web',
+    filter: 'web',
+  },
+  {
+    name: 'Aplicativo mobile',
+    filter: 'mobile',
+  },
+];
+
+const Portfolio = () => {
+  const [data, setData] = useState<PortfolioType[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
   const [selectedFilter, setSelectedFilter] = useState<Filter>('all');
-  const [filteredData, setFilteredData] = useState<PortfolioType[]>(data);
+  const [filteredData, setFilteredData] = useState<PortfolioType[]>([]);
   const [images, setImages] = useState<ImageProps[]>([]);
 
   const [open, setOpen] = useState<boolean>(false);
   const [lightboxIndex, setLightboxIndex] = useState<number>(0);
+
+  const getData = useCallback(async () => {
+    try {
+      const response = await api.get('/portfolio');
+
+      setData(response.data.data);
+      setFilteredData(response.data.data);
+    } catch (err) {
+      setData([]);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    getData();
+  }, [getData]);
 
   const handleFilter = (filter: Filter) => {
     if (filter !== selectedFilter) {
@@ -67,7 +115,7 @@ const Portfolio = ({ data }: Props) => {
 
   useEffect(() => {
     const filteredImages = filteredData.map((item) => ({
-      src: item.image,
+      src: item.image_url || '',
       description: item.name,
       height: 1000,
     }));
@@ -86,33 +134,15 @@ const Portfolio = ({ data }: Props) => {
 
       <ScrollFadeIn animation="animate__fadeInUp">
         <Buttons>
-          <Button
-            className={selectedFilter === 'all' ? 'selected' : ''}
-            onClick={() => handleFilter('all')}
-          >
-            Tudo
-          </Button>
-
-          <Button
-            className={selectedFilter === 'design' ? 'selected' : ''}
-            onClick={() => handleFilter('design')}
-          >
-            Design
-          </Button>
-
-          <Button
-            className={selectedFilter === 'web' ? 'selected' : ''}
-            onClick={() => handleFilter('web')}
-          >
-            Aplicativo web
-          </Button>
-
-          <Button
-            className={selectedFilter === 'mobile' ? 'selected' : ''}
-            onClick={() => handleFilter('mobile')}
-          >
-            Aplicativo mobile
-          </Button>
+          {AvaliableButtons.map((item, i) => (
+            <Button
+              key={i}
+              className={selectedFilter === item.filter ? 'selected' : ''}
+              onClick={() => handleFilter(item.filter)}
+            >
+              {item.name}
+            </Button>
+          ))}
         </Buttons>
 
         <Lightbox
@@ -137,14 +167,19 @@ const Portfolio = ({ data }: Props) => {
           styles={{ container: { backgroundColor: 'rgba(0, 0, 0, .9)' } }}
         />
 
+        {!loading && filteredData.length === 0 && <EmptyData />}
+
         <Cards>
-          {filteredData.length > 0 &&
+          {loading && <Loading />}
+
+          {!loading &&
+            filteredData.length > 0 &&
             filteredData.map((item: PortfolioType, i: number) => (
               <Card
                 key={item.id}
                 id={item.id}
                 name={item.name}
-                image={item.image}
+                image={item.image_url || ''}
                 type={item.type}
                 deploy={item.deploy}
                 github={item.github}

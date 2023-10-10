@@ -10,11 +10,9 @@ import Skills from '../../components/Skills';
 
 import {
   aboutData,
-  academicData,
   contactData,
   footerData,
   headerData,
-  portfolioData,
   servicesData,
   skillsData,
 } from './defaultData';
@@ -30,9 +28,9 @@ const Home = () => {
 
       <Skills data={skillsData} />
 
-      <AcademicProjects data={academicData} />
+      <AcademicProjects />
 
-      <Portfolio data={portfolioData} />
+      <Portfolio />
 
       <Contact data={contactData} />
 

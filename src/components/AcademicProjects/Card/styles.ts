@@ -117,11 +117,44 @@ export const ModalTitle = styled.div`
   }
 
   h3 {
-    font-size: 2rem;
+    font-size: 2.4rem;
   }
 `;
 
 export const ModalText = styled.p`
   color: ${(p) => p.theme.colors.fontLight};
   text-align: justify;
+`;
+
+export const DescriptionText = styled.div`
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+  }
+
+  h1,
+  h2 {
+    line-height: 150%;
+  }
+
+  pre {
+    padding: 20px;
+    border-radius: 10px;
+    background: #050d20;
+    color: ${(p) => p.theme.colors.font};
+    overflow-x: auto;
+    white-space: pre-line;
+  }
+
+  ul {
+    padding-left: 35px;
+  }
+
+  blockquote {
+    border-left: 6px solid ${(p) => p.theme.colors.primary};
+    padding: 5px 0 5px 16px;
+  }
 `;

@@ -15,6 +15,7 @@ import {
   ModalText,
   ModalImg,
   ModalTitle,
+  DescriptionText,
 } from './styles';
 
 const Card = ({ name, semester, image, description }: Academic) => {
@@ -76,7 +77,7 @@ const Card = ({ name, semester, image, description }: Academic) => {
         </ModalTitle>
 
         <ModalText>
-          <div
+          <DescriptionText
             dangerouslySetInnerHTML={{
               __html:
                 description ||
