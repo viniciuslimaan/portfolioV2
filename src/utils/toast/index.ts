@@ -41,17 +41,3 @@ export const toastError = (text: string) => {
     theme: 'colored',
   });
 };
-
-export const toastPlayer = (text: string) => {
-  toast(text, {
-    position: 'bottom-left',
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    pauseOnFocusLoss: false,
-    transition: Zoom,
-    theme: 'dark',
-  });
-};

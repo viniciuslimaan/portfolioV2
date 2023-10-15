@@ -9,7 +9,7 @@ export const Player = styled.div`
   z-index: 98;
   right: 0;
   transition: 0.5s ease;
-  transform: translateY(-50%) translateX(200px);
+  transform: translateY(-50%) translateX(180px);
 
   &:hover {
     transform: translateY(-50%) translateX(0);
@@ -21,13 +21,6 @@ export const Player = styled.div`
 
   @media (max-width: 767px) {
     display: none;
-  }
-
-  hr {
-    width: 100%;
-    height: 1px;
-    border: none;
-    background: ${(p) => p.theme.colors.bgLight};
   }
 
   .showHandlers,
@@ -62,8 +55,8 @@ export const Player = styled.div`
     align-items: center;
     flex-direction: column;
 
-    width: 200px;
-    padding: 20px;
+    width: 180px;
+    padding: 15px;
 
     .handlers,
     .volume {
@@ -76,12 +69,31 @@ export const Player = styled.div`
       margin: 15px 0 5px 0;
     }
 
+    hr {
+      margin: 10px 0 15px 0;
+      width: 200px;
+      height: 1px;
+      border: none;
+      background: ${(p) => p.theme.colors.bgLight};
+    }
+
     .volume {
+      div {
+        width: 30px;
+        height: 30px;
+        margin-right: 10px;
+
+        .icon {
+          font-size: 20px;
+        }
+      }
+
       input[type='range'] {
         cursor: pointer;
         border-radius: 5px;
         background: ${(p) => p.theme.colors.gradient};
-        height: 4px;
+        height: 3px;
+        width: 60%;
       }
 
       input[type='range'],
@@ -91,8 +103,8 @@ export const Player = styled.div`
       }
 
       input[type='range']::-webkit-slider-thumb {
-        width: 18px;
-        height: 18px;
+        width: 13px;
+        height: 13px;
         border-radius: 50%;
         border: 3px solid ${(p) => p.theme.colors.font};
         background: ${(props) => props.theme.colors.gradient};
@@ -102,8 +114,7 @@ export const Player = styled.div`
 `;
 
 export const AudioImage = styled.div`
-  width: 160px;
-  height: 160px;
+  aspect-ratio: 1/1;
 
   img {
     width: 100%;

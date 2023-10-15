@@ -6,8 +6,6 @@ import useSound from 'use-sound';
 import interstellarSoundtrack from '../../assets/audio/insterstellar-soundtrack.mp3';
 import interstellarImg from '../../assets/img/interstellar2.jpg';
 
-// import { toastPlayer } from '../../utils/toast';
-
 import { AudioImage, Button, Player } from './styles';
 
 const MusicPlayer = () => {
@@ -21,12 +19,8 @@ const MusicPlayer = () => {
   const handleMusicState = (): void => {
     if (isPlaying) {
       pause();
-
-      // toastPlayer('Música de fundo pausada.');
     } else {
       play();
-
-      // toastPlayer('Tocando soundtrack de Interstellar.');
     }
 
     setIsPlaying(!isPlaying);
@@ -73,6 +67,8 @@ const MusicPlayer = () => {
             <Icon className="icon" icon="ph:skip-forward-duotone" />
           </Button>
         </div>
+
+        <hr />
 
         <div className="volume">
           <Button
