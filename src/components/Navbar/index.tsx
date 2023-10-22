@@ -2,6 +2,8 @@ import { useState, useEffect, memo } from 'react';
 
 import { Icon } from '@iconify/react';
 
+import LogoImg from '../../assets/img/logo.png';
+
 import {
   NavbarBg,
   Logo,
@@ -38,7 +40,7 @@ const Navbar = () => {
       <NavbarBg change_bg={changeBg}>
         <NavbarContainer change_bg={changeBg}>
           <Logo href="#">
-            vinícius<span>Lima</span>
+            <img src={LogoImg} alt="Logo Vinícius Lima" />
           </Logo>
 
           {/* Normal */}

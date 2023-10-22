@@ -34,17 +34,10 @@ export const NavbarContainer = styled(Container)<NavbarBgProps>`
 `;
 
 export const Logo = styled.a`
-  font-weight: 800;
-  font-size: 1.8rem;
   user-select: none;
-  color: ${(p) => p.theme.colors.font} !important;
 
-  span {
-    color: ${(p) => p.theme.colors.primary};
-    background-image: ${(p) => p.theme.colors.gradient};
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+  img {
+    height: 1.5rem;
   }
 `;
 
