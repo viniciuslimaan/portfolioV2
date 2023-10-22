@@ -4,7 +4,7 @@ import { Icon } from '@iconify/react';
 import useSound from 'use-sound';
 
 import interstellarSoundtrack from '../../assets/audio/insterstellar-soundtrack.mp3';
-import interstellarImg from '../../assets/img/interstellar2.jpg';
+import interstellarImg from '../../assets/img/interstellar.jpg';
 
 import { AudioImage, Button, Player } from './styles';
 
