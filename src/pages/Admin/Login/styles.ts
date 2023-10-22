@@ -55,17 +55,7 @@ export const FormGroup = styled.div`
   }
 `;
 
-export const Logo = styled.p`
-  font-weight: 800;
-  font-size: 1.8rem;
+export const Logo = styled.img`
   user-select: none;
-  color: ${(p) => p.theme.colors.font} !important;
-
-  span {
-    color: ${(p) => p.theme.colors.primary};
-    background-image: ${(p) => p.theme.colors.gradient};
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
+  height: 1.5rem;
 `;

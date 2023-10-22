@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 
 import { AxiosError } from 'axios';
 
+import LogoImg from '../../../assets/img/logo.png';
+
 import api from '../../../services/api';
 
 import { toastError, toastSuccess } from '../../../utils/toast';
@@ -114,9 +116,7 @@ const Login = () => {
         </Form>
 
         <Link to="/">
-          <Logo>
-            vinícius<span>Lima</span>
-          </Logo>
+          <Logo src={LogoImg} alt="Logo Vinícius Lima" />
         </Link>
       </Content>
     </BgStars>
