@@ -9,6 +9,11 @@ export const FormGroupBg = styled.div<FormGroupProps>`
     font-size: 1rem;
     font-weight: 600;
     color: ${(props) => props.theme.colors.fontLight};
+
+    small {
+      color: #808080;
+      font-size: 0.7rem;
+    }
   }
 
   input,
@@ -25,6 +30,15 @@ export const FormGroupBg = styled.div<FormGroupProps>`
     color: ${(props) => props.theme.colors.font};
     border: ${(p) =>
       p.isInvalid ? `1px solid ${p.theme.colors.error}` : 'none'};
+  }
+
+  input:active,
+  select:active,
+  textarea:active,
+  input:focus,
+  select:focus,
+  textarea:focus {
+    border: 1px solid ${(p) => p.theme.colors.primary};
   }
 `;
 

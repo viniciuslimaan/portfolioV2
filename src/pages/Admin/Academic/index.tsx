@@ -171,7 +171,9 @@ const Academic = () => {
               </FormGroup>
 
               <FormGroup error={errors.description}>
-                <label htmlFor="description">Descrição</label>
+                <label htmlFor="description">
+                  Descrição <small>(Não obrigatório)</small>
+                </label>
                 <Controller
                   name="description"
                   control={control}

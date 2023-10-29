@@ -163,7 +163,9 @@ const Portfolio = () => {
               </FormGroup>
 
               <FormGroup>
-                <label htmlFor="deploy">Link</label>
+                <label htmlFor="deploy">
+                  Link <small>(Não obrigatório)</small>
+                </label>
                 <input
                   id="deploy"
                   type="text"
@@ -173,7 +175,9 @@ const Portfolio = () => {
               </FormGroup>
 
               <FormGroup>
-                <label htmlFor="github">Github</label>
+                <label htmlFor="github">
+                  Github <small>(Não obrigatório)</small>
+                </label>
                 <input
                   id="github"
                   type="text"
@@ -183,7 +187,9 @@ const Portfolio = () => {
               </FormGroup>
 
               <FormGroup>
-                <label htmlFor="figma">Figma</label>
+                <label htmlFor="figma">
+                  Figma <small>(Não obrigatório)</small>
+                </label>
                 <input
                   id="figma"
                   type="text"
