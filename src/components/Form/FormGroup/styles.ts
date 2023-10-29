@@ -29,7 +29,9 @@ export const FormGroupBg = styled.div<FormGroupProps>`
     background: ${(p) => p.theme.colors.bgLight};
     color: ${(props) => props.theme.colors.font};
     border: ${(p) =>
-      p.isInvalid ? `1px solid ${p.theme.colors.error}` : 'none'};
+      p.isInvalid
+        ? `1px solid ${p.theme.colors.error}`
+        : `1px solid ${p.theme.colors.bgLight}`};
   }
 
   input:active,
