@@ -102,7 +102,6 @@ export const ModalClose = styled.div`
 
 export const ModalImg = styled.img`
   max-width: 100%;
-  max-height: 400px;
 `;
 
 export const ModalTitle = styled.div`
