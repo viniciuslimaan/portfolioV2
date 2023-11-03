@@ -46,3 +46,8 @@ export const Button = styled.button`
     color: ${(p) => p.theme.colors.secondary};
   }
 `;
+
+export const LinkGit = styled.p`
+  text-align: center;
+  margin-top: 3rem;
+`;

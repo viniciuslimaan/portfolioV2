@@ -25,7 +25,7 @@ import Card from './Card';
 import Loading from './Loading';
 
 import { Container } from '../../styles/layout';
-import { Button, Buttons, Cards } from './styles';
+import { Button, Buttons, Cards, LinkGit } from './styles';
 
 type Filter = 'all' | 'design' | 'prototype' | 'web' | 'mobile';
 
@@ -78,8 +78,10 @@ const Portfolio = () => {
     try {
       const response = await api.get('/portfolio');
 
-      setData(response.data.data);
-      setFilteredData(response.data.data);
+      const portfolioData = response.data.data;
+
+      setData(portfolioData);
+      setFilteredData(portfolioData);
     } catch (err) {
       setData([]);
     } finally {
@@ -188,6 +190,18 @@ const Portfolio = () => {
               />
             ))}
         </Cards>
+
+        <LinkGit>
+          Você pode encontrar mais projetos no meu{' '}
+          <a
+            href="https://github.com/viniciuslimaan"
+            target="_blank"
+            rel="noreferrer"
+          >
+            porfólio
+          </a>
+          .
+        </LinkGit>
       </ScrollFadeIn>
     </Container>
   );
