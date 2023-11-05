@@ -4,7 +4,6 @@ const Home = lazy(() => import('../pages/Home'));
 const Dashboard = lazy(() => import('../pages/Admin/Dashboard'));
 const User = lazy(() => import('../pages/Admin/User'));
 const Portfolio = lazy(() => import('../pages/Admin/Portfolio'));
-const Academic = lazy(() => import('../pages/Admin/Academic'));
 
 interface Props {
   path: string;
@@ -33,12 +32,6 @@ export const routesList: Props[] = [
   {
     path: '/admin/portfolio/:portfolioId?',
     element: <Portfolio />,
-    isPrivate: true,
-  },
-
-  {
-    path: '/admin/academic/:academicId?',
-    element: <Academic />,
     isPrivate: true,
   },
 ];

@@ -4,13 +4,11 @@ import { Link } from 'react-router-dom';
 
 import { Icon } from '@iconify/react';
 
-import { Academic as AcademicTypes } from '../../../types/academic';
 import { Portfolio as PortfolioType } from '../../../types/portfolio';
 import { User as UserType } from '../../../types/user';
 
 import api from '../../../services/api';
 
-import { getAcademicSemester } from '../../../utils/functions/getAcademicSemester';
 import { getPortfolioType } from '../../../utils/functions/getPortfolioType';
 import { toastError } from '../../../utils/toast';
 
@@ -30,10 +28,10 @@ import {
   NewContainer,
 } from './styles';
 
-type SelectTypes = 'user' | 'portfolio' | 'academic';
+type SelectTypes = 'user' | 'portfolio';
 
 interface ModalDataProps {
-  data: UserType | PortfolioType | AcademicTypes;
+  data: UserType | PortfolioType;
   type: SelectTypes;
   reload: () => void;
 }
@@ -44,7 +42,6 @@ const Dashboard = () => {
 
   const [users, setUsers] = useState<UserType[]>([]);
   const [portfolios, setPortfolios] = useState<PortfolioType[]>([]);
-  const [academics, setAcademics] = useState<AcademicTypes[]>([]);
 
   const [modalOpened, setModalOpened] = useState<boolean>(false);
   const [modalData, setModalData] = useState<ModalDataProps>({
@@ -83,28 +80,17 @@ const Dashboard = () => {
     }
   }, []);
 
-  const getAcademics = useCallback(async () => {
-    try {
-      const response = await api.get('/academic');
-
-      setAcademics(response.data.data);
-    } catch (err) {
-      setAcademics([]);
-      toastError('Não foi possível obter os dados dos projetos acadêmicos.');
-    }
-  }, []);
-
   const getAll = useCallback(async () => {
     setLoading(true);
 
     try {
-      await Promise.allSettled([getUsers(), getPortfolios(), getAcademics()]);
+      await Promise.allSettled([getUsers(), getPortfolios()]);
     } catch (err) {
       console.log(err);
     } finally {
       setLoading(false);
     }
-  }, [getUsers, getPortfolios, getAcademics]);
+  }, [getUsers, getPortfolios]);
 
   useEffect(() => {
     getAll();
@@ -133,22 +119,13 @@ const Dashboard = () => {
             <Icon className="icon" icon="ph:briefcase-duotone" />
             <p>Portfólios</p>
           </Card>
-
-          <Card
-            selected={selectedType === 'academic'}
-            onClick={() => setSelectedType('academic')}
-          >
-            <Icon className="icon" icon="ph:graduation-cap-duotone" />
-            <p>Projetos Acadêmicos</p>
-          </Card>
         </Cards>
 
         <TableTitle>
           <Topic>
             {`${
               (selectedType === 'user' && 'Usuários') ||
-              (selectedType === 'portfolio' && 'Portfólios') ||
-              (selectedType === 'academic' && 'Projetos Acadêmicos')
+              (selectedType === 'portfolio' && 'Portfólios')
             }
           `}
           </Topic>
@@ -156,8 +133,7 @@ const Dashboard = () => {
           <Link
             to={`${
               (selectedType === 'user' && '/admin/user') ||
-              (selectedType === 'portfolio' && '/admin/portfolio') ||
-              (selectedType === 'academic' && '/admin/academic')
+              (selectedType === 'portfolio' && '/admin/portfolio')
             } `}
           >
             <Button
@@ -167,7 +143,6 @@ const Dashboard = () => {
                 <>
                   {selectedType === 'user' && 'Novo Usuário'}
                   {selectedType === 'portfolio' && 'Novo Portfólio'}
-                  {selectedType === 'academic' && 'Novo Acadêmico'}
                 </>
               }
             />
@@ -181,7 +156,6 @@ const Dashboard = () => {
 
               {selectedType === 'user' && <td>E-mail</td>}
               {selectedType === 'portfolio' && <td>Tipo</td>}
-              {selectedType === 'academic' && <td>Semestre</td>}
 
               <td>Ações</td>
             </tr>
@@ -271,45 +245,9 @@ const Dashboard = () => {
                   </td>
                 </tr>
               ))}
-
-            {!loading &&
-              selectedType === 'academic' &&
-              academics.length > 0 &&
-              academics.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.name}</td>
-
-                  <td>{getAcademicSemester(item.semester)}</td>
-
-                  <td>
-                    <Funcions>
-                      <Link to={`/admin/academic/${item.id}`}>
-                        <BtnFuctions type="edit">
-                          <Icon className="icon" icon="ph:gear-six-duotone" />
-                        </BtnFuctions>
-                      </Link>
-
-                      <BtnFuctions
-                        type="del"
-                        onClick={() =>
-                          handleModal({
-                            data: item,
-                            type: 'academic',
-                            reload: getAcademics,
-                          })
-                        }
-                      >
-                        <Icon className="icon" icon="ph:trash-duotone" />
-                      </BtnFuctions>
-                    </Funcions>
-                  </td>
-                </tr>
-              ))}
-
             {!loading &&
               ((selectedType === 'user' && users.length === 0) ||
-                (selectedType === 'portfolio' && portfolios.length === 0) ||
-                (selectedType === 'academic' && academics.length === 0)) && (
+                (selectedType === 'portfolio' && portfolios.length === 0)) && (
                 <tr>
                   <Empty colSpan={3}>
                     <Icon

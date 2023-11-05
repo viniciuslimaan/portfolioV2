@@ -3,7 +3,6 @@ import Modal from 'react-modal';
 
 import { Icon } from '@iconify/react';
 
-import { Academic as AcademicTypes } from '../../../types/academic';
 import { Portfolio as PortfolioType } from '../../../types/portfolio';
 import { User as UserType } from '../../../types/user';
 
@@ -16,8 +15,8 @@ import Button from '../../../components/Button';
 import { ModalClose, ModalHeader, ModalContent, ModalFooter } from './styles';
 
 interface ModalDataProps {
-  data: UserType | PortfolioType | AcademicTypes;
-  type: 'user' | 'portfolio' | 'academic';
+  data: UserType | PortfolioType;
+  type: 'user' | 'portfolio';
   reload: () => void;
 }
 
@@ -54,10 +53,7 @@ const ModalRemove = ({ data, opened }: Props) => {
     },
   };
 
-  const typeName =
-    (data.type === 'user' && 'usuário') ||
-    (data.type === 'portfolio' && 'portfólio') ||
-    'projeto acadêmico';
+  const typeName = data.type === 'user' ? 'usuário' : 'portfólio';
 
   const firstLetterUp = (type: string) =>
     type.charAt(0).toUpperCase() + type.slice(1);

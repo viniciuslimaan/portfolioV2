@@ -1,5 +1,4 @@
 import About from '../../components/About';
-import AcademicProjects from '../../components/AcademicProjects';
 import Contact from '../../components/Contact';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
@@ -27,8 +26,6 @@ const Home = () => {
       <About data={aboutData} />
 
       <Skills data={skillsData} />
-
-      <AcademicProjects />
 
       <Portfolio />
 
