@@ -39,7 +39,7 @@ const Navbar = () => {
     <>
       <NavbarBg change_bg={changeBg}>
         <NavbarContainer change_bg={changeBg}>
-          <Logo href="#">
+          <Logo href="https://viniciuslimaan.com.br">
             <img src={LogoImg} alt="Logo Vinícius Lima" />
           </Logo>
 
