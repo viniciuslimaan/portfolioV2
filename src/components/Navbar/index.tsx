@@ -49,8 +49,6 @@ const Navbar = () => {
 
             <Button href="#skills">Habilidades</Button>
 
-            <Button href="#academicProjects">Projetos acadêmicos</Button>
-
             <Button href="#portfolio">Portfólio</Button>
 
             <Button href="#contact">Contato</Button>
@@ -73,14 +71,6 @@ const Navbar = () => {
 
         <Button href="#skills" btn_hamburger onClick={() => setOpened(!opened)}>
           Habilidades
-        </Button>
-
-        <Button
-          href="#academicProjects"
-          btn_hamburger
-          onClick={() => setOpened(!opened)}
-        >
-          Projetos acadêmicos
         </Button>
 
         <Button
