@@ -5,6 +5,10 @@ Para visualizar em seu computador use:
 
 ```
 git clone https://github.com/viniciuslimaan/portfoliov2.git
+
+yarn install
+
+yarn start
 ```
 
 ## Tecnologias utilizadas
