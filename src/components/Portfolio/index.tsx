@@ -198,7 +198,7 @@ const Portfolio = () => {
             target="_blank"
             rel="noreferrer"
           >
-            porfólio
+            portfólio
           </a>
           .
         </LinkGit>
