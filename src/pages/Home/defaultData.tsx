@@ -52,14 +52,16 @@ export const aboutData: AboutType = {
   ),
   description: (
     <p>
-      Meu nome é <span>Vinícius Lima</span>, tenho {age} anos, sou formado em
-      técnico em informática integrado ao ensino médio na Etec Lins e atualmente
-      estou cursando tecnólogo em Sistemas para Internet na Fatec Lins. Sou
-      apaixonado por tecnologia e inovação desde pequeno, tive meu primeiro
-      contato com programação aos 12 anos, onde eu desenvolvia scripts para
-      jogos de computador. Comecei realmente a programar aos 15, quando
-      ingressei na Etec Lins e, desde então, desenvolvo aplicações Front-End e
-      Back-End.
+      Meu nome é Vinícius Lima, tenho {age} anos e sou graduado em tecnólogo em
+      Sistemas para Internet pela Fatec de Lins, além de possuir formação de
+      Técnico em Informática pela Etec de Lins. Desde a infância, minha paixão
+      pela tecnologia e inovação tem sido constante em minha jornada. Aos 12
+      anos, dei meus primeiros passos na programação, criando scripts para jogos
+      de computador. A verdadeira imersão no universo da programação iniciou-se
+      aos 15 anos, quando ingressei na Etec de Lins. Desde então, venho
+      desenvolvendo aplicações Front-end e Back-end, sempre em busca do
+      aprimoramento constante das minhas habilidades e conhecimentos nessa área
+      tão fascinante.
     </p>
   ),
   curriculum: CurriculumPdf,
